@@ -19,7 +19,7 @@ imageSourceUrl = 'https://'+ app.config['BLOB_ACCOUNT']  + '.blob.core.windows.n
 @app.route('/home')
 @login_required
 def home():
-    app.logger.info('inside home def')
+    #app.logger.info('inside home def')
     user = User.query.filter_by(username=current_user.username).first_or_404()
     posts = Post.query.all()
     return render_template(
@@ -31,7 +31,7 @@ def home():
 @app.route('/new_post', methods=['GET', 'POST'])
 @login_required
 def new_post():
-    app.logger.info('inside new_post def')
+    #app.logger.info('inside new_post def')
     form = PostForm(request.form)
     if form.validate_on_submit():
         post = Post()
@@ -48,7 +48,7 @@ def new_post():
 @app.route('/post/<int:id>', methods=['GET', 'POST'])
 @login_required
 def post(id):
-    app.logger.info('inside pos def')
+    #app.logger.info('inside pos def')
     post = Post.query.get(int(id))
     form = PostForm(formdata=request.form, obj=post)
     if form.validate_on_submit():
@@ -63,9 +63,10 @@ def post(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    app.logger.info('inside login def')
+    #app.logger.info('inside login def')
     if current_user.is_authenticated:
-        app.logger.info('admin logged in successfully')
+        app.logger.info('admin logged in successfully1')
+        app.logger.error('admin logged in successfully2')
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -74,6 +75,8 @@ def login():
             flash('Invalid username or password')
             app.logger.error('Invalid login attempt.')
             return redirect(url_for('login'))
+        app.logger.info('admin logged in successfully3')
+        app.logger.error('admin logged in successfully4')
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
