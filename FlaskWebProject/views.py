@@ -65,8 +65,6 @@ def post(id):
 def login():
     #app.logger.info('inside login def')
     if current_user.is_authenticated:
-        app.logger.info('admin logged in successfully1')
-        app.logger.error('admin logged in successfully2')
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -75,8 +73,7 @@ def login():
             flash('Invalid username or password')
             app.logger.error('Invalid login attempt.')
             return redirect(url_for('login'))
-        app.logger.info('admin logged in successfully3')
-        app.logger.error('admin logged in successfully4')
+        app.logger.info('admin logged in successfully')
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
