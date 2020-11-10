@@ -85,6 +85,7 @@ def login():
 
 @app.route(Config.REDIRECT_PATH)  # Its absolute URL must match your app's redirect_uri set in AAD
 def authorized():
+    app.logger.info('inside authorized def')
     if request.args.get('state') != session.get("state"):
         return redirect(url_for("home"))  # No-OP. Goes back to Index page
     if "error" in request.args:  # Authentication/Authorization failure
@@ -110,6 +111,7 @@ def authorized():
 
 @app.route('/logout')
 def logout():
+    app.logger.info('inside logout def')
     logout_user()
     if session.get("user"): # Used MS Login
         # Wipe out user and its token cache from session
